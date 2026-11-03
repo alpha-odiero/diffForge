@@ -1,0 +1,5 @@
+# Replace diffforge.example with the production domain before deploying.
+User-agent: *
+Allow: /
+
+Sitemap: https://diffforge.example/sitemap.xml

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>About — DiffForge</title>
+  <meta name="description" content="About DiffForge: a small, private, vanilla JavaScript developer utility for comparing JSON documents in the browser.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiffForge">
+  <meta property="og:title" content="About — DiffForge">
+  <meta property="og:description" content="A focused, private developer utility built with vanilla HTML, CSS and JavaScript.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About — DiffForge">
+  <meta name="twitter:description" content="A focused, private developer utility built with vanilla HTML, CSS and JavaScript.">
+  <meta name="twitter:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("diffforge-theme");
+        if (saved !== "light" && saved !== "dark") {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to about</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DiffForge home">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32" aria-hidden="true">
+        <span class="brand-text">DiffForge<small>Developer tool</small></span>
+      </a>
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="index.html">Compare</a>
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell" id="main">
+    <div class="content-page">
+      <header class="page-heading">
+        <p class="eyebrow">ABOUT</p>
+        <h1>A small tool for a precise job.</h1>
+        <p class="lede">DiffForge exists to answer one question quickly: what changed between these two JSON documents?</p>
+        <div class="page-actions">
+          <a class="button button-primary" href="index.html">Open the comparison tool</a>
+          <a class="button button-secondary" href="docs.html">Read the documentation</a>
+        </div>
+      </header>
+
+      <div class="prose">
+        <h2>Why it exists</h2>
+        <p>JSON is everywhere in modern development, but raw text diffs are a poor fit for hierarchical data. A single changed property can shift indentation, move a comma and make an otherwise identical response look noisy. DiffForge parses both sides instead of comparing characters. That makes changes explicit, gives each one a path and keeps the shape of the document visible.</p>
+        <p>The app is intentionally a utility rather than a platform. It opens directly into the comparison workspace, keeps the controls close to the data and avoids accounts, dashboards and unnecessary setup.</p>
+
+        <h2>Principles</h2>
+        <ul>
+          <li><strong>Local by default.</strong> Comparison runs in the browser. Editor contents are not sent to a backend.</li>
+          <li><strong>Correct before clever.</strong> Native JSON parsing, type-sensitive equality and explicit treatment of missing values are more important than guessing intent.</li>
+          <li><strong>Readable results.</strong> Stable difference paths, side-by-side values and consistent status colors make changes easy to scan.</li>
+          <li><strong>Small surface area.</strong> Vanilla HTML, CSS and JavaScript with no runtime dependencies and no build step.</li>
+          <li><strong>Honest limits.</strong> The application explains its size limits, array model and large-input behavior rather than hiding them.</li>
+        </ul>
+
+        <h2>Architecture</h2>
+        <p>The project is a static site split into small ES modules. Each module has one clear responsibility, and the comparison logic has no DOM dependencies, which allows it to run either on the main thread or inside a Web Worker.</p>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Module</th><th>Responsibility</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><code>js/parser.js</code></td><td>Native JSON parsing, validation, error locations, formatting, minification and size limits.</td></tr>
+              <tr><td><code>js/comparator.js</code></td><td>Recursive comparison, difference tree construction, paths and summary counts.</td></tr>
+              <tr><td><code>js/renderer.js</code></td><td>Summary cards and the accessible, expandable side-by-side result table.</td></tr>
+              <tr><td><code>js/editor.js</code></td><td>Editor state, validation feedback, counts, line numbers and scroll synchronization.</td></tr>
+              <tr><td><code>js/highlighter.js</code></td><td>Safe DOM-based JSON token highlighting and indentation guides.</td></tr>
+              <tr><td><code>js/app.js</code></td><td>Application wiring, utilities, filters, search, shortcuts and report actions.</td></tr>
+              <tr><td><code>js/compare-worker.js</code></td><td>Off-main-thread comparison for large documents.</td></tr>
+              <tr><td><code>js/site.js</code></td><td>Shared theme persistence, navigation behavior and documentation navigation.</td></tr>
+              <tr><td><code>js/samples.js</code></td><td>Realistic sample document pairs.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Technical choices</h2>
+        <ul>
+          <li><strong>No framework.</strong> The interface is small enough that direct DOM construction is simpler to audit and cheaper to load.</li>
+          <li><strong>No dependencies.</strong> The app ships its own parser wrapper, highlighter, clipboard fallback and download helper.</li>
+          <li><strong>No backend.</strong> There is nothing to deploy except static files.</li>
+          <li><strong>Safe rendering.</strong> User JSON is inserted with text nodes and <code>textContent</code>. The app never uses <code>eval</code> or renders untrusted strings as HTML.</li>
+          <li><strong>Progressive performance.</strong> Small comparisons run immediately; large comparisons can move to a Web Worker; very large editor features are deliberately reduced to protect the main thread.</li>
+        </ul>
+
+        <h2>Limitations</h2>
+        <ul>
+          <li>Arrays are compared strictly by index, not with a sequence-alignment algorithm or object-identity matching.</li>
+          <li>Keys are sorted in the comparison output for deterministic results.</li>
+          <li>Editor contents are not persisted between page loads.</li>
+          <li>Each editor is limited to 5,000,000 characters; extreme nesting is still constrained by the browser call stack and available memory.</li>
+          <li>The current version does not provide a file picker or multi-document comparison.</li>
+          <li>Large results are collapsed by default and can still be expensive to expand if the diff contains tens of thousands of entries.</li>
+        </ul>
+
+        <h2>Privacy</h2>
+        <p>The app does not upload editor contents, does not use analytics scripts and does not require an account. The only stored preference is the selected theme. See <a href="privacy.html">Privacy</a> for the complete description and the <a href="docs.html#privacy-security">documentation</a> for implementation notes.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="brand-mark brand-mark-small" src="assets/icon.png" alt="" width="24" height="24" aria-hidden="true">
+        <span>DiffForge <span class="footer-muted">· Free developer utility</span></span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <p class="footer-privacy">Your data stays safe and private.</p>
+    </div>
+  </footer>
+</body>
+</html>

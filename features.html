@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Features — DiffForge</title>
+  <meta name="description" content="Recursive JSON comparison, array diffing, syntax-highlighted editors, difference filters, search, path copying and downloadable reports.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiffForge">
+  <meta property="og:title" content="Features — DiffForge">
+  <meta property="og:description" content="Recursive comparison, array diffing, highlighted editors, filters, search and local reports.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Features — DiffForge">
+  <meta name="twitter:description" content="Recursive comparison, array diffing, highlighted editors, filters, search and local reports.">
+  <meta name="twitter:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("diffforge-theme");
+        if (saved !== "light" && saved !== "dark") {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to features</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DiffForge home">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32" aria-hidden="true">
+        <span class="brand-text">DiffForge<small>Developer tool</small></span>
+      </a>
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="index.html">Compare</a>
+        <a href="docs.html">Documentation</a>
+        <a href="features.html" aria-current="page">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell" id="main">
+    <div class="content-page">
+      <header class="page-heading">
+        <p class="eyebrow">FEATURES</p>
+        <h1>A JSON diff tool that shows its work.</h1>
+        <p class="lede">Structured comparison, readable results and practical editor utilities. No account, no backend and no data upload.</p>
+        <div class="page-actions">
+          <a class="button button-primary" href="index.html">Compare JSON</a>
+          <a class="button button-secondary" href="docs.html">Read documentation</a>
+        </div>
+      </header>
+
+      <h2 class="sr-only">Product highlights</h2>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <span class="feature-tag">Comparison</span>
+          <h3>Recursive by default</h3>
+          <p>Nested objects and arrays are traversed automatically. You get a path for every meaningful change, not a block-level text diff.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Comparison</span>
+          <h3>Arrays compared by index</h3>
+          <p>Index changes, new elements and removed elements are reported clearly. Objects inside arrays are compared recursively.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Accuracy</span>
+          <h3>Types matter</h3>
+          <p>The number <code>1</code>, the string <code>"1"</code> and <code>null</code> are distinct values. Missing properties are not confused with null values.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Editors</span>
+          <h3>Syntax-highlighted inputs</h3>
+          <p>Both editors include line numbers, indentation guides, character and line counts, live validation and precise error locations.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Results</span>
+          <h3>Side-by-side review</h3>
+          <p>Compare old and new values in aligned columns. Added, removed, modified and unchanged rows use consistent colors.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Results</span>
+          <h3>Filter, search and collapse</h3>
+          <p>Filter by difference type, search by key or path, hide unchanged rows and expand nested branches only when needed.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Utilities</span>
+          <h3>Format, minify, validate</h3>
+          <p>Clean up a document, reduce it to one line or validate both inputs without leaving the comparison workspace.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Utilities</span>
+          <h3>Copy and download</h3>
+          <p>Copy individual difference paths, copy the full report or download a text report and either JSON document.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-tag">Privacy</span>
+          <h3>Local processing</h3>
+          <p>Parsing, comparison and report generation run in the browser. The app does not send pasted JSON to a server.</p>
+        </article>
+      </div>
+
+      <div class="prose">
+        <h2>Comparison model</h2>
+        <p>DiffForge reports entries at stable, readable paths. The table below shows how each case is treated.</p>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Case</th><th>Result</th><th>Example path</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Key exists only in the updated document</td><td>Added</td><td><code>$.user.role</code></td></tr>
+              <tr><td>Key exists only in the original document</td><td>Removed</td><td><code>$.user.location</code></td></tr>
+              <tr><td>Primitive value differs</td><td>Modified</td><td><code>$.preferences.notifications</code></td></tr>
+              <tr><td>Number and numeric string</td><td>Modified</td><td><code>$.count</code></td></tr>
+              <tr><td>Property removed versus value set to null</td><td>Removed versus Unchanged</td><td><code>$.notes</code></td></tr>
+              <tr><td>Array element at the same index changes</td><td>Modified</td><td><code>$.items[1].price</code></td></tr>
+              <tr><td>Updated array is longer</td><td>Added</td><td><code>$.items[3]</code></td></tr>
+              <tr><td>Updated array is shorter</td><td>Removed</td><td><code>$.items[4]</code></td></tr>
+              <tr><td>Non-identifier key</td><td>Reported with brackets</td><td><code>$["delivery.window"]</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>An added or removed object counts as one entry for the property that was added or removed; its nested contents are shown as part of that value. Containers that exist on both sides are traversed and their changed leaf values are counted. The <a href="docs.html#how-comparison-works">comparison documentation</a> explains the traversal and counting rules in detail.</p>
+
+        <h2>Performance guardrails</h2>
+        <ul>
+          <li>Comparisons below 200,000 combined characters run on the main thread.</li>
+          <li>Larger comparisons use a module Web Worker when supported, with a main-thread fallback.</li>
+          <li>Syntax highlighting is paused above 100,000 characters per editor.</li>
+          <li>Line numbers are omitted above 20,000 lines to avoid creating an excessive number of DOM nodes.</li>
+          <li>Each editor is limited to 5,000,000 characters and shows an explicit error if the limit is exceeded.</li>
+          <li>Nested results are collapsed by default for very large comparison trees.</li>
+        </ul>
+
+        <h2>Keyboard-first workflow</h2>
+        <p>Compare with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd>, format with <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd>, swap inputs with <kbd>Alt</kbd> + <kbd>S</kbd> and move between editors with <kbd>Alt</kbd> + <kbd>1</kbd> and <kbd>Alt</kbd> + <kbd>2</kbd>. The full list is in the <a href="docs.html#keyboard-shortcuts">shortcut reference</a>.</p>
+
+        <h2>Deployment</h2>
+        <p>The application is static HTML, CSS and vanilla JavaScript. It does not require a server runtime, database or build step and can be deployed to Cloudflare Pages, GitHub Pages, Netlify or any static file host.</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="brand-mark brand-mark-small" src="assets/icon.png" alt="" width="24" height="24" aria-hidden="true">
+        <span>DiffForge <span class="footer-muted">· Free developer utility</span></span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <p class="footer-privacy">Your data stays safe and private.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>DiffForge — Free Online JSON Diff &amp; Comparison Tool</title>
+  <meta name="description" content="Compare JSON objects and arrays instantly. Find added, removed and modified values with a fast, private, browser-based JSON comparison tool.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiffForge">
+  <meta property="og:title" content="DiffForge — Free Online JSON Diff &amp; Comparison Tool">
+  <meta property="og:description" content="Compare JSON objects and arrays instantly. Find added, removed and modified values with a fast, private, browser-based JSON comparison tool.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="DiffForge — private, browser-based JSON diff tool">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DiffForge — Free Online JSON Diff &amp; Comparison Tool">
+  <meta name="twitter:description" content="Compare JSON objects and arrays instantly. Find added, removed and modified values with a fast, private, browser-based JSON comparison tool.">
+  <meta name="twitter:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/compare.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("diffforge-theme");
+        if (saved !== "light" && saved !== "dark") {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "DiffForge",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "description": "Compare JSON objects and arrays in the browser. Find added, removed and modified values without uploading data.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  </script>
+  <script type="module" src="js/site.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to comparison tool</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DiffForge home">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32" aria-hidden="true">
+        <span class="brand-text">DiffForge<small>Developer tool</small></span>
+      </a>
+
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="index.html" aria-current="page">Compare</a>
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <noscript>
+    <div class="noscript-notice">DiffForge needs JavaScript to parse and compare documents locally in your browser.</div>
+  </noscript>
+
+  <main class="page-shell" id="main">
+    <section class="app-intro" aria-labelledby="pageTitle">
+      <div class="intro-copy">
+        <p class="eyebrow">JSON DIFF / BROWSER TOOL</p>
+        <h1 id="pageTitle">Compare JSON <span>with precision.</span></h1>
+        <p class="subtitle">Find added, removed and modified values in nested objects and arrays. Everything runs locally in your browser.</p>
+      </div>
+      <div class="intro-actions">
+        <label class="select-field">
+          <span>Load example</span>
+          <select id="sampleSelect">
+            <option value="">Choose a sample…</option>
+          </select>
+        </label>
+        <button class="button button-quiet" id="validateButton" type="button">Validate</button>
+        <button class="button button-quiet" id="clearAll" type="button">Clear all</button>
+      </div>
+    </section>
+
+    <section class="workspace" aria-label="JSON input editors">
+      <article class="editor-card" id="originalEditor">
+        <header class="editor-heading">
+          <div class="editor-title">
+            <span class="file-icon" aria-hidden="true">{ }</span>
+            <div>
+              <h2 id="leftEditorTitle">Original JSON</h2>
+              <p>Baseline document</p>
+            </div>
+          </div>
+          <div class="editor-tools" role="group" aria-label="Original JSON tools">
+            <button class="tool-button" type="button" data-editor-action="format" aria-label="Format original JSON">Format</button>
+            <button class="tool-button" type="button" data-editor-action="minify" aria-label="Minify original JSON">Minify</button>
+            <button class="tool-button" type="button" data-editor-action="copy" aria-label="Copy original JSON">Copy</button>
+            <button class="tool-button" type="button" data-editor-action="download" aria-label="Download original JSON">Download</button>
+            <button class="tool-button tool-button-danger" type="button" data-editor-action="clear" aria-label="Clear original JSON">Clear</button>
+          </div>
+        </header>
+
+        <div class="code-editor">
+          <div class="line-numbers" aria-hidden="true">
+            <div class="line-numbers-inner" id="leftLineNumbers"></div>
+          </div>
+          <div class="editor-main">
+            <pre class="highlight-layer" aria-hidden="true"><code id="leftHighlight"></code></pre>
+            <textarea id="leftInput" class="json-input" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" aria-labelledby="leftEditorTitle" aria-describedby="leftStatus leftCount"></textarea>
+            <div class="editor-placeholder" id="leftPlaceholder" aria-hidden="true">Paste the original JSON here…</div>
+          </div>
+        </div>
+
+        <footer class="editor-footer">
+          <span class="editor-status" id="leftStatus" data-state="empty" title="Paste or type JSON to begin.">Waiting for input</span>
+          <span class="editor-meta" id="leftCount">0 chars · 0 lines</span>
+        </footer>
+      </article>
+
+      <div class="swap-column">
+        <button class="swap-button" id="swapInputs" type="button" aria-label="Swap original and updated JSON" title="Swap inputs (Alt+S)">
+          <span aria-hidden="true">⇄</span>
+        </button>
+      </div>
+
+      <article class="editor-card" id="updatedEditor">
+        <header class="editor-heading">
+          <div class="editor-title">
+            <span class="file-icon file-icon-new" aria-hidden="true">{ }</span>
+            <div>
+              <h2 id="rightEditorTitle">Updated JSON</h2>
+              <p>New document</p>
+            </div>
+          </div>
+          <div class="editor-tools" role="group" aria-label="Updated JSON tools">
+            <button class="tool-button" type="button" data-editor-action="format" aria-label="Format updated JSON">Format</button>
+            <button class="tool-button" type="button" data-editor-action="minify" aria-label="Minify updated JSON">Minify</button>
+            <button class="tool-button" type="button" data-editor-action="copy" aria-label="Copy updated JSON">Copy</button>
+            <button class="tool-button" type="button" data-editor-action="download" aria-label="Download updated JSON">Download</button>
+            <button class="tool-button tool-button-danger" type="button" data-editor-action="clear" aria-label="Clear updated JSON">Clear</button>
+          </div>
+        </header>
+
+        <div class="code-editor">
+          <div class="line-numbers" aria-hidden="true">
+            <div class="line-numbers-inner" id="rightLineNumbers"></div>
+          </div>
+          <div class="editor-main">
+            <pre class="highlight-layer" aria-hidden="true"><code id="rightHighlight"></code></pre>
+            <textarea id="rightInput" class="json-input" spellcheck="false" autocapitalize="off" autocomplete="off" wrap="off" aria-labelledby="rightEditorTitle" aria-describedby="rightStatus rightCount"></textarea>
+            <div class="editor-placeholder" id="rightPlaceholder" aria-hidden="true">Paste the updated JSON here…</div>
+          </div>
+        </div>
+
+        <footer class="editor-footer">
+          <span class="editor-status" id="rightStatus" data-state="empty" title="Paste or type JSON to begin.">Waiting for input</span>
+          <span class="editor-meta" id="rightCount">0 chars · 0 lines</span>
+        </footer>
+      </article>
+    </section>
+
+    <div class="action-row">
+      <p class="validation-message" id="validationMessage" role="status" aria-live="polite">Paste JSON into both editors, then choose Compare JSON.</p>
+      <div class="action-buttons">
+        <button class="button button-secondary" id="formatJson" type="button" title="Format both editors (Ctrl/Cmd+Shift+F)">Format JSON</button>
+        <button class="button button-primary" id="compareButton" type="button" title="Compare JSON (Ctrl/Cmd+Enter)" aria-busy="false">
+          <span class="button-spinner" aria-hidden="true"></span>
+          <span aria-hidden="true">⌕</span>
+          <span>Compare JSON</span>
+        </button>
+      </div>
+    </div>
+
+    <section class="results-section" id="resultsSection" hidden aria-labelledby="resultsTitle">
+      <div class="results-heading">
+        <div>
+          <p class="eyebrow">ANALYSIS</p>
+          <div class="results-title-line">
+            <h2 id="resultsTitle">Comparison results</h2>
+            <span class="stale-badge" id="resultsStale" hidden>Inputs changed</span>
+          </div>
+          <p class="results-context" id="resultsContext">Current comparison</p>
+        </div>
+        <div class="results-heading-actions">
+          <button class="button button-secondary" id="copyReport" type="button">Copy report</button>
+          <button class="button button-secondary" id="downloadReport" type="button">Download report</button>
+        </div>
+      </div>
+
+      <div class="summary-grid" id="summaryGrid" aria-live="polite"></div>
+
+      <div class="results-toolbar">
+        <div class="filter-tabs" role="group" aria-label="Filter by difference type">
+          <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">All <span class="filter-count" data-count-for="all">0</span></button>
+          <button class="filter-button" type="button" data-filter="added" aria-pressed="false">Added <span class="filter-count" data-count-for="added">0</span></button>
+          <button class="filter-button" type="button" data-filter="removed" aria-pressed="false">Removed <span class="filter-count" data-count-for="removed">0</span></button>
+          <button class="filter-button" type="button" data-filter="changed" aria-pressed="false">Modified <span class="filter-count" data-count-for="changed">0</span></button>
+          <button class="filter-button" type="button" data-filter="unchanged" aria-pressed="false">Unchanged <span class="filter-count" data-count-for="unchanged">0</span></button>
+        </div>
+        <label class="switch-field">
+          <input type="checkbox" id="hideUnchanged">
+          <span class="switch-track" aria-hidden="true"></span>
+          <span>Hide unchanged</span>
+        </label>
+      </div>
+
+      <div class="results-search-row">
+        <div class="results-search">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <label class="sr-only" for="resultsSearch">Search results by JSON key or difference path</label>
+          <input type="search" id="resultsSearch" placeholder="Search by key or path…" autocomplete="off" spellcheck="false">
+          <button type="button" id="searchClear" class="search-clear" hidden aria-label="Clear search">Clear</button>
+        </div>
+        <div class="tree-actions">
+          <button class="button button-quiet" id="expandAll" type="button">Expand all</button>
+          <button class="button button-quiet" id="collapseAll" type="button">Collapse all</button>
+        </div>
+        <span class="result-count" id="resultCount" aria-live="polite"></span>
+      </div>
+
+      <p class="results-hint" id="resultsHint" hidden>Large comparison: nested values are collapsed by default. Use Expand all or search to navigate.</p>
+
+      <div class="diff-table" id="resultsList" role="table" aria-label="JSON comparison results"></div>
+      <div class="empty-state" id="emptyFilter" hidden>No entries in this category.</div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="brand-mark brand-mark-small" src="assets/icon.png" alt="" width="24" height="24" aria-hidden="true">
+        <span>DiffForge <span class="footer-muted">· Free developer utility</span></span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <p class="footer-privacy">Your data stays safe and private.</p>
+    </div>
+  </footer>
+</body>
+</html>

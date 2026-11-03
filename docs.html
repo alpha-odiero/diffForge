@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>DiffForge Documentation — How JSON Diff Works</title>
+  <meta name="description" content="Documentation for DiffForge: getting started, recursive JSON comparison, difference paths, array comparison, keyboard shortcuts, FAQ and privacy.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="DiffForge">
+  <meta property="og:title" content="DiffForge Documentation — How JSON Diff Works">
+  <meta property="og:description" content="Learn how DiffForge parses documents, compares nested objects and arrays, generates difference paths and reports results.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DiffForge Documentation">
+  <meta name="twitter:description" content="How JSON parsing, recursive comparison, array diffing and difference paths work.">
+  <meta name="twitter:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("diffforge-theme");
+        if (saved !== "light" && saved !== "dark") {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <script type="module" src="js/site.js"></script>
+  <script type="module" src="js/docs-code.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to documentation</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DiffForge home">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32" aria-hidden="true">
+        <span class="brand-text">DiffForge<small>Developer tool</small></span>
+      </a>
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="index.html">Compare</a>
+        <a href="docs.html" aria-current="page">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell" id="main">
+    <div class="docs-layout">
+      <aside class="docs-sidebar">
+        <p class="docs-nav-title">On this page</p>
+        <nav aria-label="Documentation sections">
+          <ul class="docs-toc">
+            <li><a href="#getting-started">Getting started</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how-comparison-works">How comparison works</a></li>
+            <li><a href="#keyboard-shortcuts">Keyboard shortcuts</a></li>
+            <li><a href="#faq">Frequently asked questions</a></li>
+            <li><a href="#privacy-security">Privacy and security</a></li>
+          </ul>
+        </nav>
+        <p class="docs-sidebar-note">Looking for the tool? <a href="index.html">Open DiffForge</a>.</p>
+      </aside>
+
+      <article class="docs-content">
+        <header class="docs-header">
+          <p class="eyebrow">DOCUMENTATION</p>
+          <h1>DiffForge documentation</h1>
+          <p>How the tool parses JSON, compares documents, generates difference paths and presents results.</p>
+        </header>
+
+        <section id="getting-started">
+          <h2>Getting started</h2>
+          <p>DiffForge is a browser-based utility for comparing two JSON documents. It is built for inspecting API responses, configuration changes, fixture updates and any other structured data where you need to know exactly what changed.</p>
+          <p>It solves a specific problem: JSON is hierarchical, so a plain text diff often shows large blocks as changed when only one nested value actually moved. DiffForge parses both documents and walks their structures, producing precise difference paths such as <code>$.user.role</code> or <code>$.items[2].price</code>.</p>
+
+          <h3>Compare two documents</h3>
+          <ol>
+            <li>Paste or type the baseline document into the <strong>Original JSON</strong> editor.</li>
+            <li>Paste or type the new document into the <strong>Updated JSON</strong> editor.</li>
+            <li>Choose <strong>Compare JSON</strong>. The shortcut is <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd>.</li>
+            <li>Review the summary, then filter, search or expand the nested results.</li>
+            <li>Copy an individual path, copy the report, or download it as a text file.</li>
+          </ol>
+          <p>Editors are validated as you type. A valid document shows a green status; invalid JSON shows the error line and column in the editor footer. Comparison will not run until both editors contain valid JSON.</p>
+
+          <h3>Reading the results</h3>
+          <ul>
+            <li><strong>Added</strong> means the property or array element exists only in the updated document.</li>
+            <li><strong>Removed</strong> means it exists only in the original document.</li>
+            <li><strong>Modified</strong> means it exists in both documents with a different value or type.</li>
+            <li><strong>Unchanged</strong> means both parsed values are identical.</li>
+          </ul>
+          <p>Difference paths start at <code>$</code>, which represents the root value. Object keys use dot notation when possible, for example <code>$.profile.name</code>. Keys containing spaces, dots or other non-identifier characters use bracket notation, for example <code>$["delivery.window"]</code>. Array positions use index notation, for example <code>$.items[0].sku</code>.</p>
+          <p>The summary counts difference entries. An added object or array is counted as one added property, not once for every nested value. A missing property is different from a property whose value is <code>null</code>: missing produces an added or removed entry, while <code>null</code> is a real value displayed as <code>null</code>.</p>
+
+          <div class="callout">
+            <p>Try the built-in examples from the <strong>Load example</strong> selector on the compare page. Five samples cover user profiles, API responses, product catalogues, configuration files and nested edge cases.</p>
+          </div>
+        </section>
+
+        <section id="features">
+          <h2>Features</h2>
+          <h3>Comparison</h3>
+          <ul>
+            <li>Recursive comparison of deeply nested objects.</li>
+            <li>Arrays compared by index, including additions and removals at the end.</li>
+            <li>Added, removed, modified and unchanged value detection.</li>
+            <li>Type-sensitive comparison: the number <code>1</code> and the string <code>"1"</code> are different.</li>
+            <li>Correct handling of <code>null</code>, booleans, numbers, strings, empty objects and empty arrays.</li>
+            <li>Meaningful JSONPath-style difference paths and a change summary.</li>
+          </ul>
+
+          <h3>Results and navigation</h3>
+          <ul>
+            <li>Side-by-side original and updated values.</li>
+            <li>Expandable and collapsible nested structures with Expand all and Collapse all controls.</li>
+            <li>Filter by All, Added, Removed, Modified or Unchanged.</li>
+            <li>Search by JSON key or difference path.</li>
+            <li>Hide unchanged rows without losing the full summary.</li>
+            <li>Copy any individual difference path.</li>
+            <li>Copy or download a plain-text comparison report.</li>
+          </ul>
+
+          <h3>Editor utilities</h3>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr><th>Utility</th><th>Where</th><th>Behaviour</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Format</td><td>Each editor and Format JSON</td><td>Re-indents valid JSON with two spaces.</td></tr>
+                <tr><td>Minify</td><td>Each editor</td><td>Removes insignificant whitespace from valid JSON.</td></tr>
+                <tr><td>Validate</td><td>Top action bar</td><td>Checks both editors and reports the first parse error found in each.</td></tr>
+                <tr><td>Copy</td><td>Each editor</td><td>Copies the current editor text with a clipboard fallback.</td></tr>
+                <tr><td>Download</td><td>Each editor</td><td>Downloads the editor as <code>original.json</code> or <code>updated.json</code> after validation.</td></tr>
+                <tr><td>Swap</td><td>Between editors</td><td>Exchanges the two documents and recompares if results are open.</td></tr>
+                <tr><td>Clear</td><td>Each editor and Clear all</td><td>Empties one editor or both and removes the current results.</td></tr>
+                <tr><td>Samples</td><td>Load example selector</td><td>Loads a realistic pair of documents and compares them immediately.</td></tr>
+                <tr><td>Reports</td><td>Results header</td><td>Copies or downloads a text report with summary and changed entries.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Interface</h3>
+          <ul>
+            <li>Professional dark and light themes with a persistent preference.</li>
+            <li>Syntax highlighting, line numbers and indentation guides in both editors.</li>
+            <li>Character and line counts for each document.</li>
+            <li>Responsive layout for desktop, tablet and mobile.</li>
+            <li>Keyboard navigation, visible focus states and reduced-motion support.</li>
+          </ul>
+        </section>
+
+        <section id="how-comparison-works">
+          <h2>How comparison works</h2>
+
+          <h3>1. Parsing</h3>
+          <p>Both editors are parsed with the browser's native <code>JSON.parse</code>. The app never uses <code>eval</code>, and it does not use a custom parser that could interpret input as code. A leading UTF-8 byte order mark is ignored.</p>
+          <p>When parsing fails, the browser's error message is kept, the character position is converted to a line and column, and the result is shown in the editor footer and in the comparison message. Common causes include trailing commas, comments, single-quoted strings, unquoted keys and unfinished arrays or objects.</p>
+          <p>Each editor accepts up to 5,000,000 characters. Syntax highlighting is paused above 100,000 characters, and line numbers are omitted above 20,000 lines to keep the interface responsive. Comparisons of 200,000 or more combined characters run in a Web Worker when the browser supports module workers.</p>
+
+          <h3>2. Recursive traversal</h3>
+          <p>The comparison walks both parsed values together:</p>
+          <ul>
+            <li>If both values are objects, the union of their keys is compared. Keys are sorted in the output for a stable result.</li>
+            <li>If both values are arrays, the longer length is used and each index is compared.</li>
+            <li>If both values are primitives, they are compared with type-sensitive equality.</li>
+            <li>If the container types differ, for example an object on one side and an array or string on the other, the path is reported as a modified value.</li>
+            <li>If a property is present on only one side, it is reported as added or removed. The presence check uses own properties, so a property with the value <code>null</code> is not treated as missing.</li>
+          </ul>
+
+          <h3>3. Difference paths</h3>
+          <p>The root path is always <code>$</code>. Object keys are appended with dot notation when they are valid JavaScript-style identifiers; otherwise they use bracket notation. Array positions are appended as <code>[index]</code>.</p>
+          <pre><code data-highlight>Original: {"user":{"name":"Ada","tags":["dev"]}}
+Updated:  {"user":{"name":"Ada","tags":["dev","ops"]}}
+
+Added path: $.user.tags[1]
+Value:       "ops"</code></pre>
+          <pre><code data-highlight>Original: {"delivery.window":"09:00-17:00"}
+Updated:  {"delivery.window":"10:00-18:00"}
+
+Modified path: $["delivery.window"]</code></pre>
+
+          <h3>4. How arrays are compared</h3>
+          <p>Arrays are compared by index, not by searching for a matching object identity. If two objects move from position 0 to position 1, the values at each index are compared and reported accordingly. This is predictable and makes it easy to see where an API response changed, but it is not a sequence-alignment diff.</p>
+          <pre><code data-highlight>Original: {"items":["keyboard","mouse"]}
+Updated:  {"items":["keyboard","mouse","hub"]}
+
+Added path: $.items[2]
+Value:       "hub"</code></pre>
+          <p>If an array contains objects, each object is traversed recursively. For example, a change to the stock count of the second variant appears as <code>$.products[0].variants[1].stock</code>.</p>
+
+          <h3>5. Unchanged values</h3>
+          <p>Values that exist in both documents with the same type and value are marked unchanged. Non-empty containers are not counted as entries themselves; their unchanged leaves are counted. Empty objects and empty arrays that exist on both sides are represented as one unchanged entry so they remain visible in the results. If both documents are completely identical, the summary reports the unchanged values and the result message says that no differences were found.</p>
+
+          <h3>6. What the summary counts</h3>
+          <ul>
+            <li><strong>Added</strong>: one entry for each property or array element that exists only in the updated document. An added object counts as that one property, not one per nested field.</li>
+            <li><strong>Removed</strong>: the same rule for values that exist only in the original document.</li>
+            <li><strong>Modified</strong>: each primitive value or type mismatch that changed. Containers that merely contain changes are not counted themselves.</li>
+            <li><strong>Unchanged</strong>: identical primitive values, plus empty objects and arrays present on both sides.</li>
+          </ul>
+          <p>Filters and search change which rows are shown, not the totals in the summary. Reports omit unchanged entries but include the unchanged total in their summary.</p>
+        </section>
+
+        <section id="keyboard-shortcuts">
+          <h2>Keyboard shortcuts</h2>
+          <p>These are the shortcuts implemented by the current version. On macOS, use <kbd>Cmd</kbd> in place of <kbd>Ctrl</kbd> and <kbd>Option</kbd> in place of <kbd>Alt</kbd>.</p>
+          <div class="table-wrap">
+            <table class="doc-table">
+              <thead>
+                <tr><th>Action</th><th>Shortcut</th><th>Available on</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Compare JSON</td><td><kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Enter</kbd></td><td>Compare page</td></tr>
+                <tr><td>Format both editors</td><td><kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>F</kbd></td><td>Compare page</td></tr>
+                <tr><td>Swap original and updated</td><td><kbd>Alt</kbd> + <kbd>S</kbd></td><td>Compare page</td></tr>
+                <tr><td>Clear both editors</td><td><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>C</kbd></td><td>Compare page</td></tr>
+                <tr><td>Validate both editors</td><td><kbd>Alt</kbd> + <kbd>V</kbd></td><td>Compare page</td></tr>
+                <tr><td>Focus the original editor</td><td><kbd>Alt</kbd> + <kbd>1</kbd></td><td>Compare page</td></tr>
+                <tr><td>Focus the updated editor</td><td><kbd>Alt</kbd> + <kbd>2</kbd></td><td>Compare page</td></tr>
+                <tr><td>Toggle dark/light theme</td><td><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd></td><td>All pages</td></tr>
+                <tr><td>Insert two spaces in an editor</td><td><kbd>Tab</kbd></td><td>Compare page editors</td></tr>
+                <tr><td>Move focus out of an editor</td><td><kbd>Shift</kbd> + <kbd>Tab</kbd></td><td>Compare page editors</td></tr>
+                <tr><td>Clear the results search field</td><td><kbd>Esc</kbd></td><td>Results search</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Shortcut handling gives priority to the browser if a key combination is reserved by the operating system or an extension. Every action is also available as a visible button.</p>
+        </section>
+
+        <section id="faq">
+          <h2>Frequently asked questions</h2>
+
+          <h3>Is my JSON uploaded to a server?</h3>
+          <p>No. Parsing, comparison, filtering, formatting and report generation happen in the browser. The app does not send editor contents to a server and has no backend API.</p>
+
+          <h3>Does DiffForge store my data?</h3>
+          <p>Editor contents are kept in memory for the current page and are not written to browser storage. The only stored preference is the selected theme, which is saved in <code>localStorage</code> when available. If storage is blocked, the app continues to work without persistence.</p>
+
+          <h3>How are arrays compared?</h3>
+          <p>By index. Index 0 is compared with index 0, index 1 with index 1, and so on. If the updated array is longer, the extra indexes are reported as added. If it is shorter, the missing indexes are reported as removed. Arrays are not reordered or matched by object identity.</p>
+
+          <h3>Why is my JSON invalid?</h3>
+          <p>JSON is stricter than JavaScript object syntax. Common problems are trailing commas, comments, single quotes, unquoted property names, <code>undefined</code>, <code>NaN</code> and incomplete brackets. The editor footer reports the line and column. Fix the reported position first, then validate again.</p>
+
+          <h3>What happens when a property is missing?</h3>
+          <p>A property that exists only in the original is reported as <strong>Removed</strong>. A property that exists only in the updated document is reported as <strong>Added</strong>. This is intentionally different from a property whose value is <code>null</code>: <code>null</code> is a present JSON value and will be displayed as <code>null</code>.</p>
+
+          <h3>Can I compare deeply nested JSON?</h3>
+          <p>Yes. Objects and arrays are traversed recursively to any practical browser-supported depth. Extremely deep documents are still limited by the browser's call stack, memory and the 5,000,000-character editor limit.</p>
+
+          <h3>Is there a file size limit?</h3>
+          <p>Each editor accepts up to 5,000,000 characters. Comparisons of 200,000 or more combined characters use a Web Worker when supported. Syntax highlighting is paused above 100,000 characters, and line numbers are omitted above 20,000 lines. Very large documents may still feel slower because the browser must parse and render them.</p>
+
+          <h3>Can I compare files from my computer?</h3>
+          <p>The current version accepts pasted or typed text. There is no file picker. You can open a local JSON file in any text editor and paste its contents into an editor.</p>
+
+          <h3>Does it work offline?</h3>
+          <p>After the static assets have loaded, comparison runs locally and does not need a network connection. The app does not register a service worker, so reloading a page that is not cached by the browser still requires the files to be available from the host.</p>
+
+          <h3>Is the tool free?</h3>
+          <p>Yes. It is a free, static developer utility with no account, subscription or tracking script.</p>
+        </section>
+
+        <section id="privacy-security">
+          <h2>Privacy and security</h2>
+          <p>JSON comparison happens locally in the browser. The app does not upload, transmit or persist the documents you paste into the editors.</p>
+          <ul>
+            <li><code>JSON.parse</code> is used for parsing; <code>eval</code> is never used.</li>
+            <li>Untrusted JSON is rendered with DOM text nodes and <code>textContent</code>, not as HTML.</li>
+            <li>Clipboard writes use the browser clipboard API with a selection-based fallback.</li>
+            <li>Downloads are created locally with a Blob URL and are not sent to a server.</li>
+            <li>Theme preference storage is wrapped in error handling so blocked storage does not break the app.</li>
+          </ul>
+          <p>If the app is deployed on a hosting platform, that platform may process standard HTTP request metadata for the static files. The app code itself does not send editor contents anywhere. See the <a href="privacy.html">privacy page</a> for the full description of current data handling.</p>
+          <p>These statements describe the implementation in this repository. They are not a third-party security certification or a guarantee about future changes.</p>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="brand-mark brand-mark-small" src="assets/icon.png" alt="" width="24" height="24" aria-hidden="true">
+        <span>DiffForge <span class="footer-muted">· Free developer utility</span></span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <p class="footer-privacy">Your data stays safe and private.</p>
+    </div>
+  </footer>
+</body>
+</html>

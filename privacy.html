@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Privacy — DiffForge</title>
+  <meta name="description" content="How DiffForge handles data: comparison runs locally in the browser, editor contents are not uploaded, and only the theme preference is stored.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0d1117">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DiffForge">
+  <meta property="og:title" content="Privacy — DiffForge">
+  <meta property="og:description" content="Local processing, no editor data upload and no analytics. Read exactly what the app stores and sends.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Privacy — DiffForge">
+  <meta name="twitter:description" content="Local processing, no editor data upload and no analytics.">
+  <meta name="twitter:image" content="assets/og-image.png">
+  <link rel="icon" href="assets/icon.png" type="image/png" sizes="256x256">
+  <link rel="apple-touch-icon" href="assets/icon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("diffforge-theme");
+        if (saved !== "light" && saved !== "dark") {
+          saved = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        }
+        document.documentElement.dataset.theme = saved;
+      } catch (error) {
+        document.documentElement.dataset.theme = "dark";
+      }
+    })();
+  </script>
+  <script type="module" src="js/site.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to privacy information</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="DiffForge home">
+        <img class="brand-mark" src="assets/icon.png" alt="" width="32" height="32" aria-hidden="true">
+        <span class="brand-text">DiffForge<small>Developer tool</small></span>
+      </a>
+      <nav class="site-nav" id="siteNav" aria-label="Main navigation">
+        <a href="index.html">Compare</a>
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html" aria-current="page">Privacy</a>
+      </nav>
+      <div class="header-actions">
+        <button class="icon-button theme-toggle" type="button" data-theme-toggle aria-label="Switch to light theme">
+          <svg class="theme-icon icon-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+          </svg>
+          <svg class="theme-icon icon-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="siteNav" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-shell" id="main">
+    <div class="content-page">
+      <header class="page-heading">
+        <p class="eyebrow">PRIVACY</p>
+        <h1>Your data stays safe and private.</h1>
+        <p class="lede">This page describes what the current implementation stores, sends and processes. It is written to match the code in this repository, not to make claims about a different deployment.</p>
+      </header>
+
+      <div class="prose">
+        <h2>Comparison data</h2>
+        <p>Documents pasted or typed into the editors are processed locally. Parsing uses the browser's <code>JSON.parse</code>; comparison walks the parsed values in memory; results and reports are constructed in the page. The app has no backend API and does not make network requests containing editor contents.</p>
+        <p>Editor contents are not saved to <code>localStorage</code>, IndexedDB, cookies or the URL. They exist in page memory until you clear the editor, navigate away or close the tab.</p>
+
+        <h2>What is stored</h2>
+        <div class="table-wrap">
+          <table class="doc-table">
+            <thead>
+              <tr><th>Data</th><th>Where</th><th>Why</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Theme preference (<code>dark</code> or <code>light</code>)</td><td><code>localStorage</code> key <code>diffforge-theme</code></td><td>Keeps the selected theme between visits.</td></tr>
+              <tr><td>Editor contents</td><td>Page memory only</td><td>Needed for parsing and comparison. Not persisted.</td></tr>
+              <tr><td>Comparison results</td><td>Page memory only</td><td>Rendered in the current tab. Not persisted.</td></tr>
+              <tr><td>Sample selection</td><td>Page memory only</td><td>Populates the editors. Not persisted.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>If browser storage is unavailable or blocked, reading or writing the theme preference is wrapped in error handling. The app continues to work; the theme simply may not persist.</p>
+
+        <h2>No analytics or third-party scripts</h2>
+        <p>The repository does not include analytics, advertising, tracking pixels, session recording, external fonts or third-party JavaScript. The interface is built from local HTML, CSS and JavaScript files.</p>
+        <p>If you deploy the app, the hosting provider may process standard HTTP request metadata, such as IP address, user agent, requested path and timestamps, as part of serving static files. That processing is outside the app code and depends on the host you choose.</p>
+
+        <h2>Clipboard</h2>
+        <p>Copy actions use the browser's clipboard API. If the API is unavailable or permission is denied, the app tries a selection-based browser fallback. Clipboard contents are handled by the browser and operating system; the app does not receive clipboard contents from other apps.</p>
+
+        <h2>Downloads</h2>
+        <p>Report and JSON downloads are created locally with a Blob URL. The generated file is passed to the browser's download mechanism. No file is uploaded to the app or a server.</p>
+
+        <h2>Security-related implementation notes</h2>
+        <ul>
+          <li>Input is parsed with <code>JSON.parse</code>. The app never calls <code>eval</code>.</li>
+          <li>Untrusted JSON is displayed using DOM text nodes and <code>textContent</code>, not injected as HTML.</li>
+          <li>Clipboard and storage failures are handled with visible error or fallback behavior rather than being treated as success.</li>
+          <li>Very large inputs are capped at 5,000,000 characters per editor and can be compared in a Web Worker.</li>
+          <li>The current version does not use a service worker or background synchronization.</li>
+        </ul>
+
+        <h2>What this page does not claim</h2>
+        <p>This is a description of the app's own data handling. It is not a security certification, an audit or a guarantee about the browser, the operating system, installed extensions, the hosting provider or future versions. Browser extensions and other software running on your device can access page content independently of this app.</p>
+
+        <h2>Changes</h2>
+        <p>If a future feature adds server communication, analytics, file storage or any other data flow, this page and the documentation must be updated to describe it accurately before that feature is presented as private or local.</p>
+
+        <div class="callout">
+          <p>Implementation details are also documented in <a href="docs.html#privacy-security">DiffForge documentation → Privacy and security</a>. For the comparison model, read <a href="docs.html#how-comparison-works">How comparison works</a>.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img class="brand-mark brand-mark-small" src="assets/icon.png" alt="" width="24" height="24" aria-hidden="true">
+        <span>DiffForge <span class="footer-muted">· Free developer utility</span></span>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="docs.html">Documentation</a>
+        <a href="features.html">Features</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+      <p class="footer-privacy">Your data stays safe and private.</p>
+    </div>
+  </footer>
+</body>
+</html>
